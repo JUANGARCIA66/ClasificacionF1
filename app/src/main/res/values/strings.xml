@@ -1,0 +1,58 @@
+
+<resources>
+    <string name="app_name">Clasificación F1</string>
+
+    <string name="piloto1">Max Verstappen</string>
+    <string name="piloto2">Checo Perez</string>
+    <string name="equipo1">Red Bull</string>
+
+    <string name="piloto3">Lewis Hamilton</string>
+    <string name="piloto4">George Russell</string>
+    <string name="equipo2">Mercedes</string>
+
+    <string name="piloto5">Fernando Alonso</string>
+    <string name="piloto6">Lance Stroll</string>
+    <string name="equipo3">Aston Martin</string>
+
+    <string name="piloto7">Charles Leclerc</string>
+    <string name="piloto8">Carlos Sainz</string>
+    <string name="equipo4">Ferrari</string>
+
+    <string name="piloto9">Lando Norris</string>
+    <string name="piloto10">Oscar Piastri</string>
+    <string name="equipo5">Mclaren</string>
+
+    <string name="piloto11">Pierre Gasly</string>
+    <string name="piloto12">Esteban Ocon</string>
+    <string name="equipo6">Alpine</string>
+
+    <string name="piloto13">Alexander Albon</string>
+    <string name="piloto14">Logan Sargeant</string>
+    <string name="equipo7">Williams</string>
+
+    <string name="piloto15">Yuki Tsunoda</string>
+    <string name="piloto16">Nyck De Vries</string>
+    <string name="equipo8">Alphatauri</string>
+
+    <string name="piloto17">Valtteri Bottas</string>
+    <string name="piloto18">Guanyu Zhou</string>
+    <string name="equipo9">Alfa Romeo</string>
+
+    <string name="piloto19">kevin Magnussen</string>
+    <string name="piloto20">Nico Hülkenberg</string>
+    <string name="equipo10">Haas</string>
+
+    <string name="carrera1">Bahréin</string>
+    <string name="carrera2">Mónaco</string>
+    <string name="carrera3">Las Vegas</string>
+    <string name="carrera4">Monza</string>
+    <string name="carrera5">Interlagos</string>
+    <string name="carrera6">Spa-Francorchamps</string>
+    <string name="carrera7">Silverstone</string>
+    <string name="carrera8">Suzuka</string>
+    <string name="carrera9">Sochi</string>
+    <string name="carrera10">Austin</string>
+
+
+
+</resources>
