@@ -11,54 +11,82 @@ object CarrerasRepository {
         Carrera(
             nameRes = R.string.carrera1,
             action = { viewModel: ViewModel -> viewModel.carrera = 1
-                viewModel.nombreCarrera = R.string.carrera1
-                println("HOLAAA")},
-
+                viewModel.titulo = R.string.carrera1
+                viewModel.raceList = true
+                viewModel.goBack = true
+                viewModel.mostrarPosicion = true }
         ),
         Carrera(
             nameRes = R.string.carrera2,
             action = { viewModel: ViewModel -> viewModel.carrera = 2
-                viewModel.nombreCarrera = R.string.carrera2}
+                viewModel.titulo = R.string.carrera2
+                viewModel.raceList = true
+                viewModel.goBack = true
+                viewModel.mostrarPosicion = true}
         ),
         Carrera(
             nameRes = R.string.carrera3,
             action = { viewModel: ViewModel -> viewModel.carrera = 3
-                viewModel.nombreCarrera = R.string.carrera3}
+                viewModel.titulo = R.string.carrera3
+                viewModel.raceList = true
+                viewModel.goBack = true
+                viewModel.mostrarPosicion = true}
         ),
         Carrera(
             nameRes = R.string.carrera4,
             action = { viewModel: ViewModel -> viewModel.carrera = 4
-                viewModel.nombreCarrera = R.string.carrera4}
+                viewModel.titulo = R.string.carrera4
+                viewModel.raceList = true
+                viewModel.goBack = true
+                viewModel.mostrarPosicion = true}
         ),
         Carrera(
             nameRes = R.string.carrera5,
             action = { viewModel: ViewModel -> viewModel.carrera = 5
-                viewModel.nombreCarrera = R.string.carrera5}
+                viewModel.titulo = R.string.carrera5
+                viewModel.raceList = true
+                viewModel.goBack = true
+                viewModel.mostrarPosicion = true}
         ),
         Carrera(
             nameRes = R.string.carrera6,
             action = { viewModel: ViewModel -> viewModel.carrera= 6
-                viewModel.nombreCarrera = R.string.carrera6}
+                viewModel.titulo = R.string.carrera6
+                viewModel.raceList = true
+                viewModel.goBack = true
+                viewModel.mostrarPosicion = true}
         ),
         Carrera(
             nameRes = R.string.carrera7,
             action = { viewModel: ViewModel -> viewModel.carrera = 7
-                viewModel.nombreCarrera = R.string.carrera7}
+                viewModel.titulo = R.string.carrera7
+                viewModel.raceList = true
+                viewModel.goBack = true
+                viewModel.mostrarPosicion = true}
         ),
         Carrera(
             nameRes = R.string.carrera8,
             action = { viewModel: ViewModel -> viewModel.carrera = 8
-                viewModel.nombreCarrera = R.string.carrera8}
+                viewModel.titulo = R.string.carrera8
+                viewModel.raceList = true
+                viewModel.goBack = true
+                viewModel.mostrarPosicion = true}
         ),
         Carrera(
             nameRes = R.string.carrera9,
             action = { viewModel: ViewModel -> viewModel.carrera = 9
-                viewModel.nombreCarrera = R.string.carrera9}
+                viewModel.titulo = R.string.carrera9
+                viewModel.raceList = true
+                viewModel.goBack = true
+                viewModel.mostrarPosicion = true}
         ),
         Carrera(
             nameRes = R.string.carrera10,
             action = { viewModel: ViewModel -> viewModel.carrera = 10
-                viewModel.nombreCarrera = R.string.carrera10}
+                viewModel.titulo = R.string.carrera10
+                viewModel.raceList = true
+                viewModel.goBack = true
+                viewModel.mostrarPosicion = true}
         )
     )
 

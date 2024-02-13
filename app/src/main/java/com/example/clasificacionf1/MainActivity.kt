@@ -3,6 +3,8 @@ package com.example.clasificacionf1
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,6 +15,7 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Home
+import androidx.compose.material.icons.rounded.Menu
 import androidx.compose.material.icons.twotone.ArrowBack
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.DropdownMenu
@@ -35,6 +38,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -48,10 +54,13 @@ import com.example.clasificacionf1.ui.theme.PilotosTheme
 
 class ViewModel {
     var elegirCarrera by mutableStateOf(false)
-    var carrera by mutableStateOf(1)
+    var carrera by mutableStateOf(0)
     var pilotoLista by mutableStateOf<List<Piloto>>(emptyList())
-    var nombreCarrera by mutableStateOf(R.string.carrera1)
-
+    var titulo by mutableStateOf(R.string.carrera1)
+    var goBack by mutableStateOf(false)
+    var raceList by mutableStateOf(true)
+    var piloto by mutableStateOf(Piloto(R.string.piloto1, R.string.equipo1,1, R.drawable.piloto1))
+    var mostrarPosicion by mutableStateOf(false)
     fun initPilotoLista() {
         pilotoLista = PilotoRepository.getPilotoLista(this)
     }
@@ -86,7 +95,7 @@ class MainActivity : ComponentActivity() {
         ) {
 
 
-            PilotosList(pilotos = viewModel.pilotoLista, contentPadding = it)
+            PilotosList(pilotos = viewModel.pilotoLista, contentPadding = it, viewModel = viewModel)
         }
     }
 
@@ -107,12 +116,34 @@ class MainActivity : ComponentActivity() {
                 .clip(RoundedCornerShape(bottomStart = 16.dp, bottomEnd = 16.dp))
                 .shadow(20.dp),
             title = {
+                if(!viewModel.goBack){
+                    IconButton(
+                        onClick  = { /* Manejar el evento de clic del icono de navegación */ },
+                        modifier = Modifier
+                            .size(50.dp)
+
+                    ){
+                        Box(
+                            modifier = Modifier
+                                .size(50.dp)
+                                .background(Color(0xFF2B2B2B), RoundedCornerShape(25.dp)),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Image(
+                                painter = painterResource(id = R.mipmap.ic_launcher_icon),
+                                contentDescription = "Icono F1",
+                                modifier = Modifier.size(40.dp),
+                            )
+                        }
+                    }
+                }else{
                 Text(
-                    text = stringResource(viewModel.nombreCarrera),
+                    text = stringResource(viewModel.titulo),
                     style = MaterialTheme.typography.headlineMedium,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.padding(10.dp)
                 )
+                }
             },
             colors = TopAppBarDefaults.smallTopAppBarColors(
                 containerColor = MaterialTheme.colorScheme.primaryContainer,
@@ -120,9 +151,13 @@ class MainActivity : ComponentActivity() {
                 navigationIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
                 actionIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer
             ),
-            navigationIcon = {
+            navigationIcon = {if(viewModel.goBack){
+
+
                 IconButton(
-                    onClick  = { /* Manejar el evento de clic del icono de navegación */ },
+                    onClick  = { viewModel.goBack = false
+                               viewModel.carrera = 0
+                               viewModel.mostrarPosicion = false},
                     modifier = Modifier.padding(start = 10.dp)
                 ) {
                     Icon(
@@ -131,8 +166,11 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier.size(30.dp)
                     )
                 }
-            },
-            actions = {
+            }
+                 },
+            actions = {if(viewModel.raceList){
+
+
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
@@ -141,13 +179,15 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier.padding(end = 10.dp)
                     ) {
                         Icon(
-                            imageVector = Icons.Rounded.Home,
-                            contentDescription = "Primer Icono",
+                            imageVector = Icons.Rounded.Menu,
+                            contentDescription = "Icono Menu",
                             modifier = Modifier.size(30.dp)
                         )
                     }
                 }
             }
+    }
+
         )
         if (expanded) {
             // Renderiza el menú de carreras

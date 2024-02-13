@@ -55,6 +55,7 @@ fun PilotosList(
     pilotos: List<Piloto>,
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(0.dp),
+    viewModel: ViewModel
 ) {
     val visibleState = remember {
         MutableTransitionState(false).apply {
@@ -88,7 +89,8 @@ fun PilotosList(
                                 ),
                                 initialOffsetY = { it * (index + 1) } // staggered entrance
                             )
-                        )
+                        ),
+                    viewModel = viewModel
                 )
             }
         }
@@ -97,7 +99,8 @@ fun PilotosList(
 @Composable
 fun PilotosListItem(
     piloto: Piloto,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    viewModel: ViewModel
 ) {
     Card(
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
@@ -137,6 +140,8 @@ fun PilotosListItem(
                     style = MaterialTheme.typography.bodyLarge
                 )
             }
+            if(viewModel.mostrarPosicion){
+
 
             BoxWithConstraints (modifier = Modifier.padding(horizontal = 10.dp)){
                 Box{
@@ -146,6 +151,7 @@ fun PilotosListItem(
                         textAlign = TextAlign.Center
                     )
                 }
+            }
             }
         }
     }
@@ -162,7 +168,7 @@ fun PilotoPreview() {
         R.drawable.piloto1
     )
     PilotosTheme {
-        PilotosListItem(piloto = piloto)
+        PilotosListItem(piloto = piloto, viewModel = ViewModel())
     }
 }
 
@@ -174,7 +180,7 @@ fun PilotosPreview() {
             color = MaterialTheme.colorScheme.background
         ) {
 
-            PilotosList(pilotos = PilotoRepository.getPilotoLista(ViewModel()))
+            PilotosList(pilotos = PilotoRepository.getPilotoLista(ViewModel()), viewModel = ViewModel())
         }
     }
 }
