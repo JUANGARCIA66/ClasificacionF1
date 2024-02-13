@@ -1,6 +1,10 @@
 
 <resources>
-    <string name="app_name">Clasificación F1</string>
+    <string name="app_name">F1</string>
+
+    <string name="start">Clasificación F1</string>
+    <string name="race">Carrera</string>
+    <string name="pilot">Piloto</string>
 
     <string name="piloto1">Max Verstappen</string>
     <string name="piloto2">Checo Perez</string>
