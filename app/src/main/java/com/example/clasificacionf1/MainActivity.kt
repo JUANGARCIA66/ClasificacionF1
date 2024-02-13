@@ -1,31 +1,19 @@
 package com.example.clasificacionf1
 
-import android.graphics.drawable.Icon
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.rounded.Home
-import androidx.compose.material.icons.rounded.Refresh
 import androidx.compose.material.icons.twotone.ArrowBack
-import androidx.compose.material.icons.twotone.Menu
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -36,12 +24,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarColors
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.ComposableInferredTarget
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -50,22 +35,26 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import com.example.clasificacionf1.model.Carrera
 import com.example.clasificacionf1.model.CarrerasRepository
+import com.example.clasificacionf1.model.Piloto
 import com.example.clasificacionf1.model.PilotoRepository
 import com.example.clasificacionf1.ui.theme.PilotosTheme
 
 
 class ViewModel {
     var elegirCarrera by mutableStateOf(false)
-    var carrera: MutableState<Int> = mutableStateOf(3)
+    var carrera by mutableStateOf(1)
+    var pilotoLista by mutableStateOf<List<Piloto>>(emptyList())
+    var nombreCarrera by mutableStateOf(R.string.carrera1)
+
+    fun initPilotoLista() {
+        pilotoLista = PilotoRepository.getPilotoLista(this)
+    }
 }
 
 class MainActivity : ComponentActivity() {
@@ -87,15 +76,17 @@ class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     fun PilotosApp() {
+        val viewModel = remember { ViewModel() }
+        viewModel.initPilotoLista()
         Scaffold(
             modifier = Modifier.fillMaxSize(),
             topBar = {
-                TopAppBar(viewModel = ViewModel())
+                TopAppBar(viewModel)
             }
         ) {
 
-            val pilotoLista = PilotoRepository.pilotoLista
-            PilotosList(pilotos = pilotoLista, contentPadding = it)
+
+            PilotosList(pilotos = viewModel.pilotoLista, contentPadding = it)
         }
     }
 
@@ -117,7 +108,7 @@ class MainActivity : ComponentActivity() {
                 .shadow(20.dp),
             title = {
                 Text(
-                    text = stringResource(R.string.app_name),
+                    text = stringResource(viewModel.nombreCarrera),
                     style = MaterialTheme.typography.headlineMedium,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.padding(10.dp)
@@ -163,7 +154,8 @@ class MainActivity : ComponentActivity() {
             MenuCarreras(
                 expanded = expanded,
                 setExpanded = { expanded = it },
-                carreras = CarrerasRepository.carreraLista
+                carreras = CarrerasRepository.carreraLista,
+                viewModel = viewModel
             )
             //PilotosList(pilotos = PilotoRepository.pilotoLista)
         }
@@ -172,7 +164,8 @@ class MainActivity : ComponentActivity() {
     private fun MenuCarreras(
         expanded: Boolean,
         setExpanded: (Boolean) -> Unit,
-        carreras : List<Carrera>
+        carreras : List<Carrera>,
+        viewModel: ViewModel
     ) {
         Box(
             modifier = Modifier
@@ -187,7 +180,7 @@ class MainActivity : ComponentActivity() {
                     DropdownMenuItem(
                         text = { Text(text = stringResource(c.nameRes)) },
                         onClick = {
-                            c.action()
+                            c.action(viewModel)
                             setExpanded(false)
                         })
                 }

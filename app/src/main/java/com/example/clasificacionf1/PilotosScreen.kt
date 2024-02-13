@@ -174,7 +174,7 @@ fun PilotosPreview() {
             color = MaterialTheme.colorScheme.background
         ) {
 
-            PilotosList(pilotos = PilotoRepository.pilotoLista)
+            PilotosList(pilotos = PilotoRepository.getPilotoLista(ViewModel()))
         }
     }
 }
