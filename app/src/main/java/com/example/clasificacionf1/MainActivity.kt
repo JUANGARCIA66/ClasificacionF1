@@ -69,16 +69,19 @@ class ViewModel {
     var titulo by mutableStateOf(R.string.carrera1)
     var goBack by mutableStateOf(false)
     var raceList by mutableStateOf(true)
-    var piloto by mutableStateOf(Piloto(R.string.piloto1, R.string.equipo1,1, R.drawable.piloto1))
+    var piloto by mutableStateOf(Piloto(R.string.piloto1, R.string.equipo1,1, R.drawable.piloto1, R.string.stats_piloto1))
     var mostrarPosicion by mutableStateOf(false)
+    var mostrarTitulo by mutableStateOf(true)
     fun initPilotoLista() {
         pilotoLista = PilotoRepository.getPilotoLista(this)
+
     }
 }
 enum class Ventanas(@StringRes val title: Int){
     Start(title = R.string.start),
     Race(title= R.string.race),
-    Pilot(title= R.string.pilot)
+    Pilot(title= R.string.pilot),
+    Home(title= R.string.home)
 }
 
 class MainActivity : ComponentActivity() {
@@ -104,43 +107,50 @@ class MainActivity : ComponentActivity() {
         navController: NavHostController = rememberNavController()
 
     ) {
-        val backStackEntry by navController.currentBackStackEntryAsState()
-        // Get the name of the current screen
-        val currentScreen = Ventanas.valueOf(
-            backStackEntry?.destination?.route ?: Ventanas.Start.name
-        )
         val viewModel = remember { ViewModel() }
         viewModel.initPilotoLista()
         Scaffold(
-            modifier = Modifier.fillMaxSize(),
-            topBar = {
-                TopAppBar(viewModel, navController)
+            modifier = Modifier.fillMaxSize(), topBar = {
+                    TopAppBar(viewModel, navController)
+
             }
         ) {
                 NavHost(
                     navController = navController,
-                    startDestination = Ventanas.Start.name,
+                    startDestination = Ventanas.Home.name,
                     modifier = Modifier.padding(top = 88.dp)
                 ) {
+                    composable(route = Ventanas.Home.name){
+
+                        HomeScreen(navController = navController, viewModel = viewModel)
+                    }
                     composable(route = Ventanas.Start.name) {
-                        viewModel.goBack = false
-                        viewModel.carrera = 0
-                        viewModel.mostrarPosicion = false
-                        PilotosList(
-                            pilotos = viewModel.pilotoLista,
-                            viewModel = viewModel,
-                            navController = navController
-                        )
+
+                            if(viewModel.carrera == 0){
+                                PilotosList(
+                                pilotos = viewModel.pilotoLista,
+                                viewModel = viewModel,
+                                navController = navController,
+                                start = true
+
+                            )
+                            }
                     }
                     composable(route = Ventanas.Race.name) {
+
                         PilotosList(
                             pilotos = viewModel.pilotoLista,
                             viewModel = viewModel,
                             navController = navController
                         )
 
+
                     }
                     composable(route = Ventanas.Pilot.name) {
+
+                        viewModel.mostrarTitulo = false
+                        viewModel.raceList = false
+                        viewModel.goBack = true
                         PilotDetails(viewModel = viewModel)
 
                     }
@@ -170,9 +180,9 @@ class MainActivity : ComponentActivity() {
                 .clip(RoundedCornerShape(bottomStart = 16.dp, bottomEnd = 16.dp))
                 .shadow(20.dp),
             title = {
-                if(!viewModel.goBack){
+                if(!viewModel.goBack || !viewModel.mostrarTitulo){
                     IconButton(
-                        onClick  = { /* Manejar el evento de clic del icono de navegación */ },
+                        onClick  = { navController.navigate(Ventanas.Home.name) },
                         modifier = Modifier
                             .size(50.dp)
 
@@ -205,12 +215,14 @@ class MainActivity : ComponentActivity() {
                 navigationIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
                 actionIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer
             ),
-            navigationIcon = {if(viewModel.goBack){
-
-
+            navigationIcon = {
+                if(viewModel.goBack)
+                {
                 IconButton(
                     onClick  = {
-                        navController.popBackStack() },
+                        viewModel.carrera = 0
+                            navController.navigate(Ventanas.Start.name)
+                    },
                     modifier = Modifier.padding(start = 10.dp)
                 ) {
                     Icon(
@@ -248,9 +260,9 @@ class MainActivity : ComponentActivity() {
                 expanded = expanded,
                 setExpanded = { expanded = it },
                 carreras = CarrerasRepository.carreraLista,
-                viewModel = viewModel
+                viewModel = viewModel,
+                navController = navController
             )
-            //PilotosList(pilotos = PilotoRepository.pilotoLista)
         }
     }
     @Composable
@@ -258,7 +270,8 @@ class MainActivity : ComponentActivity() {
         expanded: Boolean,
         setExpanded: (Boolean) -> Unit,
         carreras : List<Carrera>,
-        viewModel: ViewModel
+        viewModel: ViewModel,
+        navController : NavHostController
     ) {
         Box(
             modifier = Modifier
@@ -273,8 +286,10 @@ class MainActivity : ComponentActivity() {
                     DropdownMenuItem(
                         text = { Text(text = stringResource(c.nameRes)) },
                         onClick = {
-                            c.action(viewModel)
                             setExpanded(false)
+                            c.action(viewModel)
+                            navController.navigate(Ventanas.Race.name)
+
                         })
                 }
             }

@@ -5,6 +5,7 @@
     <string name="start">Clasificación F1</string>
     <string name="race">Carrera</string>
     <string name="pilot">Piloto</string>
+    <string name="home">Pantalla inicio</string>
 
     <string name="piloto1">Max Verstappen</string>
     <string name="piloto2">Checo Perez</string>
@@ -45,6 +46,27 @@
     <string name="piloto19">kevin Magnussen</string>
     <string name="piloto20">Nico Hülkenberg</string>
     <string name="equipo10">Haas</string>
+
+    <string name="stats_piloto1">Posición: 1° - Victorias: 5</string>
+    <string name="stats_piloto2">Posición: 2° - Victorias: 3</string>
+    <string name="stats_piloto3">Posición: 3° - Victorias: 2</string>
+    <string name="stats_piloto4">Posición: 5° - Victorias: 1</string>
+    <string name="stats_piloto5">Posición: 6° - Victorias: 1</string>
+    <string name="stats_piloto6">Posición: 10° - Victorias: 0</string>
+    <string name="stats_piloto7">Posición: 4° - Victorias: 2</string>
+    <string name="stats_piloto8">Posición: 8° - Victorias: 1</string>
+    <string name="stats_piloto9">Posición: 7° - Victorias: 1</string>
+    <string name="stats_piloto10">Posición: 12° - Victorias: 0</string>
+    <string name="stats_piloto11">Posición: 9° - Victorias: 0</string>
+    <string name="stats_piloto12">Posición: 11° - Victorias: 0</string>
+    <string name="stats_piloto13">Posición: 13° - Victorias: 0</string>
+    <string name="stats_piloto14">Posición: 15° - Victorias: 0</string>
+    <string name="stats_piloto15">Posición: 14° - Victorias: 0</string>
+    <string name="stats_piloto16">Posición: 16° - Victorias: 0</string>
+    <string name="stats_piloto17">Posición: 17° - Victorias: 0</string>
+    <string name="stats_piloto18">Posición: 18° - Victorias: 0</string>
+    <string name="stats_piloto19">Posición: 19° - Victorias: 0</string>
+    <string name="stats_piloto20">Posición: 20° - Victorias: 0</string>
 
     <string name="carrera1">Bahréin</string>
     <string name="carrera2">Mónaco</string>

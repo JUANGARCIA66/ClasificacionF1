@@ -58,11 +58,24 @@ fun PilotosList(
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(0.dp),
     viewModel: ViewModel,
-    navController : NavHostController
+    navController : NavHostController,
+    start : Boolean = false
 ) {
+
+    if(start){
+        viewModel.goBack = false
+        viewModel.carrera = 0
+        viewModel.mostrarPosicion = false
+        viewModel.raceList = true
+        viewModel.mostrarTitulo = false
+    }else{
+        viewModel.raceList = true
+        viewModel.goBack = true
+        viewModel.mostrarPosicion = true
+        viewModel.mostrarTitulo = true
+    }
     val visibleState = remember {
         MutableTransitionState(false).apply {
-            // Start the animation immediately.
             targetState = true
         }
     }
@@ -173,7 +186,8 @@ fun PilotoPreview() {
         R.string.piloto1,
         R.string.equipo1,
         1,
-        R.drawable.piloto1
+        R.drawable.piloto1,
+        R.string.stats_piloto1
     )
     PilotosTheme {
         PilotosListItem(piloto = piloto, viewModel = ViewModel(), navController = rememberNavController())

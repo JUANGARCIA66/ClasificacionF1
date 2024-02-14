@@ -24,5 +24,6 @@ data class Piloto(
     @StringRes val nameRes: Int,
     @StringRes val teamRes : Int,
     val positionRes: Int,
-    @DrawableRes val imageRes: Int
+    @DrawableRes val imageRes: Int,
+    @StringRes val estadisticas : Int
 )
