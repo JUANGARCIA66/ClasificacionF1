@@ -114,29 +114,34 @@ class MainActivity : ComponentActivity() {
         Scaffold(
             modifier = Modifier.fillMaxSize(),
             topBar = {
-                TopAppBar(viewModel)
+                TopAppBar(viewModel, navController)
             }
         ) {
                 NavHost(
                     navController = navController,
                     startDestination = Ventanas.Start.name,
-                    modifier = Modifier.padding(top = 90.dp)
+                    modifier = Modifier.padding(top = 88.dp)
                 ) {
                     composable(route = Ventanas.Start.name) {
-
+                        viewModel.goBack = false
+                        viewModel.carrera = 0
+                        viewModel.mostrarPosicion = false
                         PilotosList(
                             pilotos = viewModel.pilotoLista,
-                            viewModel = viewModel
+                            viewModel = viewModel,
+                            navController = navController
                         )
                     }
                     composable(route = Ventanas.Race.name) {
                         PilotosList(
                             pilotos = viewModel.pilotoLista,
-                            viewModel = viewModel
+                            viewModel = viewModel,
+                            navController = navController
                         )
 
                     }
                     composable(route = Ventanas.Pilot.name) {
+                        PilotDetails(viewModel = viewModel)
 
                     }
 
@@ -149,7 +154,8 @@ class MainActivity : ComponentActivity() {
 
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
-    fun TopAppBar(viewModel: ViewModel) {
+    fun TopAppBar(viewModel: ViewModel,
+                  navController : NavHostController) {
         var expanded by remember { mutableStateOf(false) }
 
         LaunchedEffect(viewModel.elegirCarrera) {
@@ -203,9 +209,8 @@ class MainActivity : ComponentActivity() {
 
 
                 IconButton(
-                    onClick  = { viewModel.goBack = false
-                               viewModel.carrera = 0
-                               viewModel.mostrarPosicion = false},
+                    onClick  = {
+                        navController.popBackStack() },
                     modifier = Modifier.padding(start = 10.dp)
                 ) {
                     Icon(

@@ -45,6 +45,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.clasificacionf1.model.Piloto
 import com.example.clasificacionf1.model.PilotoRepository
 import com.example.clasificacionf1.ui.theme.PilotosTheme
@@ -55,7 +57,8 @@ fun PilotosList(
     pilotos: List<Piloto>,
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(0.dp),
-    viewModel: ViewModel
+    viewModel: ViewModel,
+    navController : NavHostController
 ) {
     val visibleState = remember {
         MutableTransitionState(false).apply {
@@ -90,7 +93,8 @@ fun PilotosList(
                                 initialOffsetY = { it * (index + 1) } // staggered entrance
                             )
                         ),
-                    viewModel = viewModel
+                    viewModel = viewModel,
+                    navController = navController
                 )
             }
         }
@@ -100,11 +104,15 @@ fun PilotosList(
 fun PilotosListItem(
     piloto: Piloto,
     modifier: Modifier = Modifier,
-    viewModel: ViewModel
+    viewModel: ViewModel,
+    navController : NavHostController
 ) {
     Card(
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
-        modifier = modifier.clickable { /* Manejar el evento de clic aquí */ },
+        elevation = CardDefaults.cardElevation(defaultElevation = 5.dp),
+        modifier = modifier.clickable {
+            viewModel.piloto = piloto
+            navController.navigate(Ventanas.Pilot.name)
+                                      },
     ) {
 
         Row(
@@ -125,7 +133,7 @@ fun PilotosListItem(
                     alignment = Alignment.Center,
                     modifier = Modifier
                         .fillMaxSize()
-                        .background(Color.LightGray),
+                        .background(MaterialTheme.colorScheme.surface),
                     contentScale = ContentScale.Crop
                 )
             }
@@ -168,7 +176,7 @@ fun PilotoPreview() {
         R.drawable.piloto1
     )
     PilotosTheme {
-        PilotosListItem(piloto = piloto, viewModel = ViewModel())
+        PilotosListItem(piloto = piloto, viewModel = ViewModel(), navController = rememberNavController())
     }
 }
 
@@ -180,7 +188,10 @@ fun PilotosPreview() {
             color = MaterialTheme.colorScheme.background
         ) {
 
-            PilotosList(pilotos = PilotoRepository.getPilotoLista(ViewModel()), viewModel = ViewModel())
+            PilotosList(
+                pilotos = PilotoRepository.getPilotoLista(ViewModel()),
+                viewModel = ViewModel(),
+                navController = rememberNavController())
         }
     }
 }
